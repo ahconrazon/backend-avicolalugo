@@ -1,6 +1,7 @@
 # --- ETAPA DE CONSTRUCCIÓN (BUILD STAGE) ---
-# Usa una imagen base con Maven y JDK para construir la aplicación.
-FROM openjdk:17-jdk-slim AS build
+# Usa una imagen base con JDK para construir la aplicación.
+# openjdk:17-slim incluye el JDK y es una variante ligera.
+FROM openjdk:17-slim AS build
 WORKDIR /app
 
 # Copia el archivo pom.xml y .mvn para que Maven descargue las dependencias.
@@ -9,7 +10,6 @@ COPY pom.xml .
 COPY .mvn .mvn/
 
 # Descarga las dependencias (mvn dependency:go-offline) para que no se descarguen en cada cambio de código.
-# Puedes omitir esta línea si no tienes problemas con la velocidad de construcción.
 RUN mvn dependency:go-offline -B
 
 # Copia el resto del código fuente.
@@ -20,7 +20,8 @@ RUN mvn clean install -DskipTests
 
 # --- ETAPA FINAL (RUNNING STAGE) ---
 # Usa una imagen base más ligera (solo JRE) para la aplicación final.
-FROM openjdk:17-jre-slim
+# eclipse-temurin:17-jre-focal es una imagen JRE muy popular y confiable.
+FROM eclipse-temurin:17-jre-focal
 WORKDIR /app
 
 # Copia el JAR ejecutable desde la etapa de construcción a la imagen final.
