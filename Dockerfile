@@ -1,7 +1,7 @@
 # Usa una imagen base de OpenJDK (Java Development Kit) versión 17.
 # La versión 'slim' es más ligera y eficiente para contenedores.
 # Esto es como decir: "Mi caja se basará en un sistema que ya tiene Java 17 instalado".
-FROM openjdk:17-jdk-slim
+FROM openjdk:21-jdk-slim
 
 # Instala Maven dentro de la caja. Maven es la herramienta que usas para construir tu proyecto Java.
 # 'apt-get update' actualiza la lista de paquetes.
